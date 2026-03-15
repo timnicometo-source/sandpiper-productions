@@ -387,8 +387,8 @@ nav a:hover::after {
 
 /* FOOTER */
 
-footer {
-  background: #222;
+ffooter {
+  background: red;
   color: #fff;
   text-align: center;
   padding: 25px 0;
