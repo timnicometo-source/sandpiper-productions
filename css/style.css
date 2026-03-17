@@ -229,6 +229,9 @@ nav a:hover::after {
   font-size: 2rem;
   line-height: 1;
   margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  line-height: 1;
 }
 
 .service-card h3 {
@@ -243,6 +246,27 @@ nav a:hover::after {
   line-height: 1.8;
   color: #444;
 }
+
+.service-icon svg {
+  width: 36px;
+  height: 36px;
+  stroke: #0077cc;
+  stroke-width: 2;
+  fill: none;
+}
+
+.service-icon img {
+  width: 4em;
+  height: 2em;
+  vertical-align: middle;
+}
+
+.service-card-image-icon .service-icon {
+  margin-bottom: 20px;
+  height: 32px;
+  display: flex;
+  align-items: flex-start;
+
 
 
 /* INNER PAGES */
@@ -436,10 +460,8 @@ footer {
     font-size: 30px;
   }
 
+ 
   .services,
   .page-section {
     padding: 50px 0;
   }
-
-  
-}
