@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sandpiper Productions | Contact</title>
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/style.css?v=5">
 </head>
 
 <body data-page="contact">
   <div id="site-header"></div>
 
   <main class="inner-page">
+
+    <!-- HERO -->
     <section class="page-hero">
       <div class="container">
         <h1>Contact</h1>
@@ -18,22 +20,82 @@
       </div>
     </section>
 
-    <section class="page-section">
-      <div class="container narrow">
-        <form class="contact-form" action="contact.php" method="POST">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" placeholder="Your name" required>
+    <!-- CONTACT FORM -->
+    <section class="page-section contact-section">
+      <div class="container">
+        <div class="contact-wrap">
 
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="Your email" required>
+          <form class="contact-form" action="contact.php" method="POST" novalidate>
 
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="6" placeholder="Tell me about your project" required></textarea>
+            <div class="contact-grid">
 
-          <button type="submit" class="btn">Send Message</button>
-        </form>
+              <div class="field">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Your name" required>
+              </div>
+
+              <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Your email" required>
+              </div>
+
+              <div class="field">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" placeholder="Your phone number">
+              </div>
+
+              <div class="field">
+                <label for="company">Company / Organization</label>
+                <input type="text" id="company" name="company" placeholder="Company or organization">
+              </div>
+
+              <div class="field">
+                <label for="project_type">Project Type</label>
+                <select id="project_type" name="project_type" required>
+                  <option value="">Select a project type</option>
+                  <option value="Website Design">Website Design</option>
+                  <option value="Website Management">Website Management</option>
+                  <option value="Drone Media">Drone Media</option>
+                  <option value="Video Production">Video Production</option>
+                  <option value="Photography">Photography</option>
+                  <option value="Creative Consulting">Creative Consulting</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="contact_method">Preferred Contact Method</label>
+                <select id="contact_method" name="contact_method" required>
+                  <option value="">Select a contact method</option>
+                  <option value="Email">Email</option>
+                  <option value="Phone">Phone</option>
+                  <option value="Either">Either</option>
+                </select>
+              </div>
+
+              <div class="field field-full">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="7" placeholder="Tell me about your project" required></textarea>
+              </div>
+
+            </div>
+
+            <!-- Honeypot (hidden spam field) -->
+            <div class="hp-field" aria-hidden="true">
+              <label for="website">Website</label>
+              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="contact-actions">
+              <button type="submit" class="btn">Send Message</button>
+            </div>
+
+          </form>
+
+        </div>
       </div>
     </section>
+
   </main>
 
   <div id="site-footer"></div>
