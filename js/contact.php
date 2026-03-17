@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-// CHANGE THIS PATH to the real location of your secret config file
 require_once dirname(__DIR__) . '/mail-config.php';
 
 require_once __DIR__ . '/phpmailer/src/Exception.php';
@@ -20,23 +19,27 @@ function clean_input(string $value): string {
     return trim(strip_tags($value));
 }
 
-function redirect_error(string $message = 'Unable to send message.'): void {
+function show_error(string $message = 'Unable to send message.'): void {
     echo '<!DOCTYPE html>
     <html lang="en">
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Contact Error</title>
-      <link rel="stylesheet" href="css/style.css?v=4">
+      <link rel="stylesheet" href="css/style.css?v=5">
     </head>
     <body>
       <main class="inner-page">
         <section class="page-section">
-          <div class="container narrow">
-            <div class="contact-form">
-              <h1>Something went wrong</h1>
-              <p>' . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</p>
-              <p><a class="btn" href="contact.html">Back to Contact Page</a></p>
+          <div class="container">
+            <div class="contact-wrap">
+              <div class="contact-form">
+                <h1>Something went wrong</h1>
+                <p>' . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</p>
+                <div class="contact-actions">
+                  <a class="btn" href="contact.html">Back to Contact Page</a>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -46,7 +49,6 @@ function redirect_error(string $message = 'Unable to send message.'): void {
     exit;
 }
 
-// Honeypot check
 if (!empty($_POST['website'] ?? '')) {
     header('Location: thank-you.html');
     exit;
@@ -76,37 +78,30 @@ $allowedContactMethods = [
     'Either'
 ];
 
-if (
-    $name === '' ||
-    $email === '' ||
-    $projectType === '' ||
-    $contactMethod === '' ||
-    $message === ''
-) {
-    redirect_error('Please complete all required fields.');
+if ($name === '' || $email === '' || $projectType === '' || $contactMethod === '' || $message === '') {
+    show_error('Please complete all required fields.');
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    redirect_error('Please enter a valid email address.');
+    show_error('Please enter a valid email address.');
 }
 
 if (!in_array($projectType, $allowedProjectTypes, true)) {
-    redirect_error('Invalid project type selected.');
+    show_error('Invalid project type selected.');
 }
 
 if (!in_array($contactMethod, $allowedContactMethods, true)) {
-    redirect_error('Invalid contact method selected.');
+    show_error('Invalid contact method selected.');
 }
 
 if (mb_strlen($message) > 5000) {
-    redirect_error('Message is too long.');
+    show_error('Message is too long.');
 }
 
 $phoneDisplay = $phone !== '' ? $phone : 'Not provided';
 $companyDisplay = $company !== '' ? $company : 'Not provided';
 
-$adminBody = "
-New contact form submission from SandpiperProductions.com
+$adminBody = "New contact form submission from SandpiperProductions.com
 
 Name: {$name}
 Email: {$email}
@@ -116,11 +111,9 @@ Project Type: {$projectType}
 Preferred Contact Method: {$contactMethod}
 
 Message:
-{$message}
-";
+{$message}";
 
-$userBody = "
-Hi {$name},
+$userBody = "Hi {$name},
 
 Thanks for reaching out to Sandpiper Productions.
 
@@ -137,8 +130,7 @@ Message:
 {$message}
 
 Best,
-Sandpiper Productions
-";
+Sandpiper Productions";
 
 try {
     $mail = new PHPMailer(true);
@@ -150,10 +142,8 @@ try {
     $mail->Password = SMTP_PASS;
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
     $mail->Port = SMTP_PORT;
-
     $mail->CharSet = 'UTF-8';
 
-    // Notification to you
     $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
     $mail->addAddress(CONTACT_TO_EMAIL, CONTACT_TO_NAME);
     $mail->addReplyTo($email, $name);
@@ -161,9 +151,9 @@ try {
     $mail->Body = $adminBody;
     $mail->send();
 
-    // Auto-reply to visitor
     $mail->clearAddresses();
     $mail->clearReplyTos();
+
     $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
     $mail->addAddress($email, $name);
     $mail->addReplyTo(CONTACT_TO_EMAIL, CONTACT_TO_NAME);
@@ -176,5 +166,5 @@ try {
 
 } catch (Exception $e) {
     error_log('Contact form mailer error: ' . $e->getMessage());
-    redirect_error('Your message could not be sent right now. Please try again later.');
+    show_error('Your message could not be sent right now. Please try again later.');
 }

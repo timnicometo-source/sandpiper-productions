@@ -1,3 +1,8 @@
 .DS_Store
 .vscode/*.zip
 backup_*/
+mail-config.php
+public_html/mail-config.php
+*.zip
+backup_*/
+.DS_Store
