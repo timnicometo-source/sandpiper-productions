@@ -20,32 +20,36 @@ function clean_input(string $value): string {
 }
 
 function show_error(string $message = 'Unable to send message.'): void {
-    echo '<!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Contact Error</title>
-      <link rel="stylesheet" href="css/style.css?v=5">
-    </head>
-    <body>
-      <main class="inner-page">
-        <section class="page-section">
-          <div class="container">
-            <div class="contact-wrap">
-              <div class="contact-form">
-                <h1>Something went wrong</h1>
-                <p>' . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</p>
-                <div class="contact-actions">
-                  <a class="btn" href="contact.html">Back to Contact Page</a>
-                </div>
-              </div>
+    $safeMessage = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
+
+    echo <<<HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Error</title>
+  <link rel="stylesheet" href="css/style.css?v=5">
+</head>
+<body>
+  <main class="inner-page">
+    <section class="page-section">
+      <div class="container">
+        <div class="contact-wrap">
+          <div class="contact-form">
+            <h1>Something went wrong</h1>
+            <p>{$safeMessage}</p>
+            <div class="contact-actions">
+              <a class="btn" href="contact.html">Back to Contact Page</a>
             </div>
           </div>
-        </section>
-      </main>
-    </body>
-    </html>';
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
+HTML;
     exit;
 }
 
@@ -165,6 +169,6 @@ try {
     exit;
 
 } catch (Exception $e) {
-    error_log('Contact form mailer error: ' . $e->getMessage());
+    error_log('Contact form error: ' . $e->getMessage());
     show_error('Your message could not be sent right now. Please try again later.');
 }
