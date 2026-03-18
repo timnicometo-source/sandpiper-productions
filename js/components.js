@@ -14,18 +14,33 @@ document.addEventListener("DOMContentLoaded", function () {
   const navHtml = navLinks
     .map(function (link) {
       const activeClass = page === link.key ? "active" : "";
-      return '<li><a href="' + link.href + '" class="' + activeClass + '">' + link.label + '</a></li>';
+      const ariaCurrent = page === link.key ? ' aria-current="page"' : "";
+      return '<li><a href="' + link.href + '" class="' + activeClass + '"' + ariaCurrent + ">" + link.label + "</a></li>";
     })
     .join("");
 
   if (header) {
     header.innerHTML = `
-      <header>
+      <header class="site-header">
         <div class="container nav-container">
-          <a href="index.html" class="logo">
+          <a href="index.html" class="logo" aria-label="Sandpiper Productions Home">
             <img src="images/sandpiper-logo.png" alt="Sandpiper Productions Logo">
           </a>
-          <nav>
+
+          <button
+            class="nav-toggle"
+            id="nav-toggle"
+            aria-label="Toggle navigation"
+            aria-expanded="false"
+            aria-controls="site-nav"
+            type="button"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <nav id="site-nav" class="site-nav" aria-label="Main navigation">
             <ul>
               ${navHtml}
             </ul>
@@ -37,9 +52,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (footer) {
     footer.innerHTML = `
-      <footer>
+      <footer class="site-footer">
         <div class="container">
-          <p>&copy; <span id="year"></span> Sandpiper Productions</p>
+          <p>&copy; <span id="year"></span> Sandpiper Productions. All rights reserved.</p>
         </div>
       </footer>
     `;
@@ -48,5 +63,24 @@ document.addEventListener("DOMContentLoaded", function () {
   const yearSpan = document.getElementById("year");
   if (yearSpan) {
     yearSpan.textContent = new Date().getFullYear();
+  }
+
+  const navToggle = document.getElementById("nav-toggle");
+  const siteNav = document.getElementById("site-nav");
+
+  if (navToggle && siteNav) {
+    navToggle.addEventListener("click", function () {
+      const isOpen = siteNav.classList.toggle("open");
+      navToggle.classList.toggle("open", isOpen);
+      navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+
+    siteNav.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        siteNav.classList.remove("open");
+        navToggle.classList.remove("open");
+        navToggle.setAttribute("aria-expanded", "false");
+      });
+    });
   }
 });
