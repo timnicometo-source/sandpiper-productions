@@ -55,6 +55,9 @@ document.addEventListener("DOMContentLoaded", function () {
       <footer class="site-footer">
         <div class="container">
           <p>&copy; <span id="year"></span> Sandpiper Productions. All rights reserved.</p>
+          <p class="footer-email">
+  <a href="mailto:info@sandpiper-productions.com">info@sandpiper-productions.com</a>
+</p>
         </div>
       </footer>
     `;

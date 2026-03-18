@@ -542,6 +542,21 @@ footer p,
   line-height: 1.5;
 }
 
+.footer-email {
+  margin-top: 6px;
+  font-size: 0.9rem;
+}
+
+.site-footer a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
 /* ANIMATION */
 
 @keyframes fadeUp {
